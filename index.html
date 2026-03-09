@@ -5,38 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Director's Cut | Editor Portfolio</title>
     <style>
-        /* --- 🎨 THE LUXE PALETTE --- */
         :root {
             --obsidian: #0B0E14;
             --gold: #D4AF37;
             --cloud: #F0EEE9;
-            --slate: rgba(45, 52, 54, 0.6); /* Glassmorphism base */
-            --transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            --slate: rgba(45, 52, 54, 0.4);
+            --transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
 
         body {
             background-color: var(--obsidian);
             color: var(--cloud);
-            font-family: 'Inter', sans-serif; /* 2026 Standard Clean Font */
+            font-family: 'Inter', sans-serif;
             overflow-x: hidden;
-            line-height: 1.6;
         }
 
-        /* --- ✨ ANIMATIONS --- */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: var(--transition);
-        }
-
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* --- 📱 ADAPTIVE NAVIGATION --- */
+        /* --- 📱 NAVIGATION & MENU --- */
         nav {
             padding: 2rem 5%;
             display: flex;
@@ -44,138 +30,183 @@
             align-items: center;
             position: fixed;
             width: 100%;
-            z-index: 100;
-            backdrop-filter: blur(10px);
+            z-index: 1000;
         }
 
-        .logo {
-            font-weight: 800;
-            letter-spacing: 2px;
-            color: var(--gold);
-            text-transform: uppercase;
+        .logo { font-weight: 800; color: var(--gold); letter-spacing: 2px; }
+
+        /* The Three Icons (Hamburger) */
+        .menu-toggle {
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            z-index: 1001;
         }
 
-        /* --- 🎬 HERO SECTION --- */
-        .hero {
+        .menu-toggle span {
+            display: block;
+            width: 30px;
+            height: 2px;
+            background: var(--gold);
+            transition: var(--transition);
+        }
+
+        /* Full Screen Dropdown */
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 100%;
             height: 100vh;
+            background: rgba(11, 14, 20, 0.98);
+            backdrop-filter: blur(20px);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            text-align: center;
-            padding: 0 10%;
+            transition: var(--transition);
+            z-index: 999;
         }
 
-        .hero h1 {
-            font-size: clamp(3rem, 10vw, 8rem);
-            line-height: 0.9;
-            margin-bottom: 1rem;
-            background: linear-gradient(to bottom, #F0EEE9, #D4AF37);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .menu-overlay.active { right: 0; }
+
+        .menu-overlay a {
+            font-size: 3rem;
+            color: var(--cloud);
+            text-decoration: none;
+            margin: 1.5rem 0;
+            font-weight: 700;
+            transition: var(--transition);
         }
 
-        /* --- 🍱 BENTO GRID (DESKTOP) --- */
+        .menu-overlay a:hover { color: var(--gold); transform: skewX(-10px); }
+
+        /* --- ✍️ DEDICATION SECTION --- */
+        .section-padding { padding: 10vh 10%; }
+
+        .dedication-text {
+            max-width: 800px;
+            font-size: 1.5rem;
+            line-height: 1.4;
+            border-left: 2px solid var(--gold);
+            padding-left: 2rem;
+            margin: 4rem 0;
+        }
+
+        .dedication-text span { color: var(--gold); font-weight: bold; }
+
+        /* --- 🍱 WORK GRID --- */
         .work-grid {
             display: grid;
             gap: 20px;
-            padding: 5%;
             grid-template-columns: repeat(4, 1fr);
-            grid-auto-rows: 300px;
+            grid-auto-rows: 350px;
         }
 
         .project-card {
             background: var(--slate);
+            border-radius: 15px;
             border: 1px solid rgba(212, 175, 55, 0.1);
-            border-radius: 20px;
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
             transition: var(--transition);
             display: flex;
             align-items: flex-end;
             padding: 2rem;
-        }
-
-        .project-card:hover {
-            border-color: var(--gold);
-            transform: scale(1.02);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-        }
-
-        /* Adaptive UI: Span columns for 'Featured' looks */
-        .card-large { grid-column: span 2; grid-row: span 2; }
-        .card-tall { grid-row: span 2; }
-
-        /* --- 📱 MOBILE ADAPTATION --- */
-        @media (max-width: 768px) {
-            .work-grid {
-                grid-template-columns: 1fr; /* Single column for mobile */
-                grid-auto-rows: 400px;
-            }
-            .card-large, .card-tall { grid-column: span 1; grid-row: span 1; }
-            
-            .hero h1 { font-size: 4rem; }
-        }
-
-        .play-btn {
-            color: var(--gold);
-            font-size: 0.8rem;
             text-transform: uppercase;
-            letter-spacing: 3px;
-            border-bottom: 1px solid var(--gold);
+            letter-spacing: 2px;
+            font-size: 0.8rem;
         }
+
+        .project-card:hover { border-color: var(--gold); transform: translateY(-10px); }
+
+        /* --- 💬 HIRE ME SECTION --- */
+        .hire-me {
+            background: linear-gradient(to bottom, var(--obsidian), #1a1e26);
+            text-align: center;
+            border-radius: 40px 40px 0 0;
+        }
+
+        .discord-tag {
+            display: inline-block;
+            background: var(--gold);
+            color: var(--obsidian);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: bold;
+            margin-top: 2rem;
+            text-decoration: none;
+        }
+
+        /* Adaptive UI */
+        @media (max-width: 768px) {
+            .work-grid { grid-template-columns: 1fr; }
+            .menu-overlay a { font-size: 2rem; }
+        }
+
+        .reveal { opacity: 0; transform: translateY(30px); transition: 1s all ease; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
     </style>
 </head>
 <body>
 
     <nav>
-        <div class="logo">Alex Edit.</div>
-        <div class="menu-dot">● ● ●</div>
+        <div class="logo">ALEX_EDITS</div>
+        <div class="menu-toggle" onclick="toggleMenu()">
+            <span></span><span></span><span></span>
+        </div>
     </nav>
 
-    <section class="hero">
-        <h1 class="reveal">CRAFTING<br>MOTION</h1>
-        <p class="reveal">Visual Storytelling & High-End Post Production</p>
+    <div class="menu-overlay" id="menuOverlay">
+        <a href="#home" onclick="toggleMenu()">HOME</a>
+        <a href="#preview" onclick="toggleMenu()">PREVIEWS</a>
+        <a href="#hire" onclick="toggleMenu()">HOW TO HIRE ME</a>
+    </div>
+
+    <section id="home" class="section-padding" style="min-height: 80vh; display: flex; align-items: center;">
+        <div class="reveal">
+            <h1 style="font-size: clamp(3rem, 8vw, 6rem); line-height: 1;">THE ART OF<br><span style="color:var(--gold)">THE CUT.</span></h1>
+            
+            <div class="dedication-text">
+                Every frame is a deliberate choice. Editing isn't just cutting footage; it's <span>sculpting time</span>, rhythm, and emotion. My work is fueled by a relentless dedication to the "invisible art"—ensuring every transition feels like a heartbeat and every color grade tells a story. 
+            </div>
+        </div>
     </section>
 
-    <section class="work-grid">
-        <div class="project-card card-large reveal">
-            <div class="play-btn">View Reel 01</div>
+    <section id="preview" class="section-padding">
+        <h2 class="reveal" style="margin-bottom: 2rem; color: var(--gold);">PROJECT PREVIEWS</h2>
+        <div class="work-grid">
+            <div class="project-card reveal" style="grid-column: span 2;">Cinematic Reel 2026</div>
+            <div class="project-card reveal">Music Video</div>
+            <div class="project-card reveal">Branding</div>
+            <div class="project-card reveal">Docu-Series</div>
+            <div class="project-card reveal" style="grid-column: span 3;">Commercial Campaign</div>
         </div>
+    </section>
 
-        <div class="project-card reveal">
-            <div class="play-btn">Music Video</div>
-        </div>
-
-        <div class="project-card card-tall reveal">
-            <div class="play-btn">Documentary</div>
-        </div>
-
-        <div class="project-card reveal">
-            <div class="play-btn">Commercial</div>
+    <section id="hire" class="section-padding hire-me">
+        <div class="reveal">
+            <h2 style="font-size: 3rem;">WANT TO COLLABORATE?</h2>
+            <p style="margin-top: 1rem; opacity: 0.8;">I'm currently taking on high-end post-production projects.</p>
+            <p style="margin-top: 2rem;">Reach out directly on <strong>Discord</strong> for rates and availability:</p>
+            <a href="#" class="discord-tag">DISCORD: YourFriendTag#0000</a>
         </div>
     </section>
 
     <script>
-        // --- 💨 SMOOTH SCROLL REVEAL LOGIC ---
-        const observerOptions = { threshold: 0.1 };
+        // --- TOGGLE MENU LOGIC ---
+        function toggleMenu() {
+            document.getElementById('menuOverlay').classList.toggle('active');
+        }
+
+        // --- REVEAL ON SCROLL ---
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                }
+                if (entry.isIntersecting) entry.target.classList.add('active');
             });
-        }, observerOptions);
+        }, { threshold: 0.1 });
 
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-        // --- 🖱️ MOUSE MOVE KINETIC EFFECT ---
-        document.addEventListener('mousemove', (e) => {
-            const x = (window.innerWidth / 2 - e.pageX) / 50;
-            const y = (window.innerHeight / 2 - e.pageY) / 50;
-            document.querySelector('.hero h1').style.transform = `translateX(${x}px) translateY(${y}px)`;
-        });
     </script>
+
 </body>
 </html>
